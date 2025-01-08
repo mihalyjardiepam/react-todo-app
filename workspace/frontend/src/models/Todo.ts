@@ -7,7 +7,7 @@ export enum TodoStatus {
 }
 
 /**
- * Represents a TODO task
+ * Represents a TODO
  */
 export interface Todo {
     /**

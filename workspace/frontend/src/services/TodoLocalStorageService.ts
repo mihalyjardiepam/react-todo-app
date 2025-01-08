@@ -42,9 +42,9 @@ export class TodoLocalStorageService implements TodoService {
             id: generateId(ID_LENGTH),
             status: TodoStatus.NotStarted
         }
-        const currentTodos = await this.getTodos();
-        currentTodos.push(newTodo);
-        localStorage.setItem(TODO_LOCALSTORAGE_KEY, JSON.stringify(currentTodos));
+        
+        let todos = [newTodo, ...await this.getTodos()];
+        localStorage.setItem(TODO_LOCALSTORAGE_KEY, JSON.stringify(todos));
 
         return newTodo;
     }
