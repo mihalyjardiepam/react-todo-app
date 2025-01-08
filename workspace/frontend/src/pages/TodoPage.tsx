@@ -20,7 +20,15 @@ function TodoPage() {
     }, []);
 
     async function addTodo(task: string) {
-        console.log(task);
+        if (!todoService) {
+            return;
+        }
+
+        await todoService.addTodo({
+            task
+        });
+
+        setTodos(await todoService.getTodos());
     }
 
     async function changeState(todo: Todo) {
@@ -52,13 +60,17 @@ function TodoPage() {
                 <AddTodo onAdd={addTodo} />
                 <div className="todo-list-header">TODO List:</div>
                 <div className="todo-list">
-                    {todos.map(todo => (
-                        <TodoItem 
+                    {todos.length > 0 ? todos.map(todo => (
+                        <TodoItem
                             todo={todo}
                             key={todo.id}
                             onChangeState={() => changeState(todo)}
                             onDelete={() => deleteTodo(todo)} />
-                    ))}
+                    )) : (
+                        <div className="no-todos">
+                            You have no TODOs
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

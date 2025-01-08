@@ -3,6 +3,11 @@
     grid-template-columns: 1fr auto;
     gap: 8px;
 
+    &.complete {
+        text-decoration: line-through;
+        color: var(--ui-secondary);
+    }
+
     .todo-list-button {
         background-color: transparent;
         border: none;
@@ -14,8 +19,25 @@
     }
 
     .check-btn {
+        transition: color .1s ease-in-out;
+
         &.status-0 {
             color: var(--fg);
         }
+
+        &.status-1 {
+            color: var(--ui-in-progress)
+        }
+
+        &.status-2 {
+            color: var(--ui-secondary)
+        }
+    }
+
+    .misc-info {
+        font-size: 0.7em;
+        opacity: 0.6;
+        font-style: italic;
+        padding-top: 2px;
     }
 }

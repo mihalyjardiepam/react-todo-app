@@ -9,7 +9,7 @@
     max-width: 600px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 16px;
 }
 
 .todo-list-header {
@@ -22,5 +22,11 @@
 .todo-list {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 16px;
+}
+
+.no-todos {
+    opacity: 0.6;
+    font-style: italic;
+    text-align: center;
 }

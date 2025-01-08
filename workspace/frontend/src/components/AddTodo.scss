@@ -1,0 +1,35 @@
+.add-todo {
+    form {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        width: 100%;
+        gap: 16px;
+    }
+
+    input {
+        transition: border-color .1s ease-in-out;
+        background-color: transparent;
+        color: var(--ui-primary);
+        border: 2px solid var(--ui-secondary);
+        border-radius: 4px;
+        padding: 6px;
+
+        &:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+    }
+
+    button {
+        transition: border-color .1s ease-in-out;
+        background-color: transparent;
+        color: var(--ui-primary);
+        border: 2px solid var(--ui-secondary);
+        border-radius: 4px;
+        padding: 6px 12px;
+        cursor: pointer;
+        &:hover {
+            border-color: var(--ui-primary);
+        }
+    }
+}

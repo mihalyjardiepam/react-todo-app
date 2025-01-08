@@ -7,7 +7,6 @@ const TODO_LOCALSTORAGE_KEY = "todos";
 const INITIAL_VALUE: Todo[] = [{
     id: generateId(ID_LENGTH),
     createdAt: new Date().getTime(),
-    deletedAt: null,
     status: TodoStatus.NotStarted,
     task: "Add TODOs"
 }];
@@ -38,7 +37,6 @@ export class TodoLocalStorageService implements TodoService {
         let newTodo: Todo = {
             ...todo,
             createdAt: new Date().getTime(),
-            deletedAt: null,
             id: generateId(ID_LENGTH),
             status: TodoStatus.NotStarted
         }

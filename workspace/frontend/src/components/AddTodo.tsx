@@ -1,4 +1,5 @@
 import { SyntheticEvent, useRef } from "react";
+import "./AddTodo.scss";
 
 interface AddTodoProps {
     onAdd: (task: string) => any; // any: Don't care about return type
@@ -20,7 +21,7 @@ function AddTodo({ onAdd }: AddTodoProps) {
     return (
         <div className="add-todo">
             <form onSubmit={submitTodo}>
-                <input ref={taskInputRef} type="text" name="todo-input" placeholder="task description..." />
+                <input ref={taskInputRef} type="text" autoComplete="off" name="todo-input" placeholder="task description..." />
                 <button onClick={submitTodo}>Add New Todo</button>
             </form>
         </div>

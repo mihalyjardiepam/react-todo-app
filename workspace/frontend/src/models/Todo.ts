@@ -29,11 +29,6 @@ export interface Todo {
      * Created date timestamp
      */
     createdAt: UnixTimestampMs,
-
-    /**
-     * Deleted date timestamp
-     */
-    deletedAt: UnixTimestampMs | null,
 }
 
 export type CreateTodo = Pick<Todo, "task">;
