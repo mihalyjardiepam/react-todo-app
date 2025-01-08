@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { TodoServiceContext } from "../context/TodoServiceContext";
+import { TodoServiceContext } from "../context/TodoServiceProvider";
 import "./TodoPage.scss";
 import { Todo, TodoStatus } from "../models/Todo";
 import TodoItem from "../components/TodoItem";
