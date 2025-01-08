@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { TodoServiceContext } from "../context/TodoServiceContext";
 import "./TodoPage.scss";
-import { Todo } from "../models/Todo";
+import { Todo, TodoStatus } from "../models/Todo";
 import TodoItem from "../components/TodoItem";
 import AddTodo from "../components/AddTodo";
 
@@ -23,13 +23,42 @@ function TodoPage() {
         console.log(task);
     }
 
+    async function changeState(todo: Todo) {
+        if (!todoService) {
+            return;
+        }
+
+        const newStatus = (todo.status + 1) % (TodoStatus.Done + 1);
+        await todoService.updateTodo(todo.id, {
+            status: newStatus,
+            task: todo.task
+        });
+
+        setTodos(await todoService.getTodos());
+    }
+
+    async function deleteTodo(todo: Todo) {
+        if (!todoService) {
+            return;
+        }
+
+        await todoService.deleteTodo(todo.id);
+        setTodos(await todoService.getTodos());
+    }
+
     return (
         <div className="todo-page-wrapper">
             <div className="todo-page">
                 <AddTodo onAdd={addTodo} />
                 <div className="todo-list-header">TODO List:</div>
                 <div className="todo-list">
-                    {todos.map(todo => (<TodoItem todo={todo} key={todo.id} />))}
+                    {todos.map(todo => (
+                        <TodoItem 
+                            todo={todo}
+                            key={todo.id}
+                            onChangeState={() => changeState(todo)}
+                            onDelete={() => deleteTodo(todo)} />
+                    ))}
                 </div>
             </div>
         </div>
