@@ -1,0 +1,33 @@
+.status-button {
+    $size: 32px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    height: $size;
+    width: $size;
+    border: 0.1em solid var(--ui-border);
+    border-radius: 50%;
+    background-color: transparent;
+
+    .indicator {
+        width: 85%;
+        aspect-ratio: 1;
+        border-radius: 50%;
+
+        &.status-0 {
+            background-color: transparent;
+        }
+
+        &.status-1 {
+            background-color: var(--ui-in-progress);
+        }
+
+        &.status-2 {
+            background-color: var(--ui-border);
+        }
+    }
+}
+

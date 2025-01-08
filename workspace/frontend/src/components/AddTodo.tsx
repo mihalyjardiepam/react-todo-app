@@ -18,10 +18,10 @@ function AddTodo({ onAdd }: AddTodoProps) {
     }
 
     return (
-        <div className="add-todo-wrapper">
+        <div className="add-todo">
             <form onSubmit={submitTodo}>
                 <input ref={taskInputRef} type="text" name="todo-input" placeholder="task description..." />
-                <button onClick={submitTodo}>Add Todo</button>
+                <button onClick={submitTodo}>Add New Todo</button>
             </form>
         </div>
     );

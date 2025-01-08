@@ -24,11 +24,10 @@ function TodoPage() {
     }
 
     return (
-        <div className="todo-pager-wrapper">
+        <div className="todo-page-wrapper">
             <div className="todo-page">
-                <div className="add-todo-item">
-                    <AddTodo onAdd={addTodo} />
-                </div>
+                <AddTodo onAdd={addTodo} />
+                <div className="todo-list-header">TODO List:</div>
                 <div className="todo-list">
                     {todos.map(todo => (<TodoItem todo={todo} key={todo.id} />))}
                 </div>

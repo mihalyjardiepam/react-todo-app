@@ -1,0 +1,26 @@
+.todo-page-wrapper {
+    width: 100%;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.todo-page {
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.todo-list-header {
+    width: 100%;
+    text-align: center;
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+.todo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
