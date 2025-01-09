@@ -1,4 +1,4 @@
-import { SyntheticEvent, useRef } from "react";
+import { useRef } from "react";
 import "./AddTodo.scss";
 
 interface AddTodoProps {
@@ -8,8 +8,7 @@ interface AddTodoProps {
 function AddTodo({ onAdd }: AddTodoProps) {
     const taskInputRef = useRef<HTMLInputElement | null>(null);
 
-    function submitTodo(evt: SyntheticEvent) {
-        evt.preventDefault();
+    async function addTodo() {
         if (!taskInputRef.current) {
             return;
         }
@@ -20,9 +19,16 @@ function AddTodo({ onAdd }: AddTodoProps) {
 
     return (
         <div className="add-todo">
-            <form onSubmit={submitTodo}>
-                <input ref={taskInputRef} type="text" autoComplete="off" name="todo-input" placeholder="task description..." />
-                <button onClick={submitTodo}>Add New Todo</button>
+            <form action={addTodo}>
+                <input
+                    required
+                    ref={taskInputRef}
+                    type="text"
+                    autoComplete="off"
+                    name="todo-input"
+                    placeholder="task description..."
+                />
+                <button type="submit">Add New Todo</button>
             </form>
         </div>
     );
