@@ -19,7 +19,7 @@ export class TodoLocalStorageService implements TodoService {
         const currentKeys = localStorage.getItem(TODO_LOCALSTORAGE_KEY);
 
         if (currentKeys == null) {
-            localStorage.setItem(TODO_LOCALSTORAGE_KEY, JSON.stringify(INITIAL_VALUE))
+            TodoLocalStorageService._saveTodos(INITIAL_VALUE);
         }
     }
 
@@ -40,9 +40,9 @@ export class TodoLocalStorageService implements TodoService {
             id: generateId(ID_LENGTH),
             status: TodoStatus.NotStarted
         }
-        
+
         let todos = [newTodo, ...await this.getTodos()];
-        localStorage.setItem(TODO_LOCALSTORAGE_KEY, JSON.stringify(todos));
+        TodoLocalStorageService._saveTodos(todos);
 
         return newTodo;
     }
@@ -59,7 +59,7 @@ export class TodoLocalStorageService implements TodoService {
             ...currentTodos[todoIndex],
             ...updateData
         };
-        localStorage.setItem(TODO_LOCALSTORAGE_KEY, JSON.stringify(currentTodos));
+        TodoLocalStorageService._saveTodos(currentTodos);
 
         return currentTodos[todoIndex];
     }
@@ -67,6 +67,10 @@ export class TodoLocalStorageService implements TodoService {
     public async deleteTodo(id: string): Promise<void | never> {
         const currentTodos = await this.getTodos();
         const newTodos = currentTodos.filter(todo => todo.id !== id);
-        localStorage.setItem(TODO_LOCALSTORAGE_KEY, JSON.stringify(newTodos));
+        TodoLocalStorageService._saveTodos(newTodos);
+    }
+
+    private static _saveTodos(todos: Todo[]) {
+        localStorage.setItem(TODO_LOCALSTORAGE_KEY, JSON.stringify(todos));
     }
 }
