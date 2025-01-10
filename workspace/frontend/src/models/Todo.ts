@@ -6,6 +6,8 @@ export enum TodoStatus {
     Done,
 }
 
+export type IDType = string;
+
 /**
  * Represents a TODO
  */
@@ -13,7 +15,7 @@ export interface Todo {
     /**
      * Unique ID
      */
-    id: string,
+    id: IDType,
 
     /**
      * Task to be done

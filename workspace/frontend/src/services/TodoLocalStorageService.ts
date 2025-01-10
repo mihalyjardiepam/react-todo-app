@@ -1,5 +1,5 @@
 import { generateId } from "../lib/generate-id";
-import { CreateTodo, Todo, TodoStatus, UpdateTodo } from "../models/Todo";
+import { CreateTodo, IDType, Todo, TodoStatus, UpdateTodo } from "../models/Todo";
 import { TodoService } from "./TodoService";
 
 const ID_LENGTH = 12;
@@ -47,7 +47,7 @@ export class TodoLocalStorageService implements TodoService {
         return newTodo;
     }
 
-    public async updateTodo(id: string, updateData: UpdateTodo): Promise<Todo | never> {
+    public async updateTodo(id: IDType, updateData: UpdateTodo): Promise<Todo | never> {
         const currentTodos = await this.getTodos();
         const todoIndex = currentTodos.findIndex(todo => todo.id === id);
 
@@ -64,7 +64,7 @@ export class TodoLocalStorageService implements TodoService {
         return currentTodos[todoIndex];
     }
 
-    public async deleteTodo(id: string): Promise<void | never> {
+    public async deleteTodo(id: IDType): Promise<void | never> {
         const currentTodos = await this.getTodos();
         const newTodos = currentTodos.filter(todo => todo.id !== id);
         TodoLocalStorageService._saveTodos(newTodos);

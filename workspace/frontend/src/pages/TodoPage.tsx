@@ -1,75 +1,49 @@
-import { useContext, useEffect, useState } from "react";
-import { TodoServiceContext } from "../context/TodoServiceProvider";
 import "./TodoPage.scss";
-import { Todo, TodoStatus } from "../models/Todo";
 import TodoItem from "../components/TodoItem";
 import AddTodo from "../components/AddTodo";
+import { useAppDispatch, useAppSelector } from "../store";
+import { addTodo, deleteTodo, getTodos, updateTodo } from "../features/todos/todosSlice";
+import { Todo, TodoStatus } from "../models/Todo";
+import { useEffect } from "react";
 
 function TodoPage() {
-    const todoService = useContext(TodoServiceContext);
-    const [todos, setTodos] = useState<Todo[]>([]);
+    const { todos } = useAppSelector((state) => state.todos);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
-        if (!todoService) {
-            return;
-        }
-
-        (async () => {
-            setTodos(await todoService.getTodos());
-        })();
+        dispatch(getTodos());
     }, []);
 
-    async function addTodo(task: string) {
-        if (!todoService) {
-            return;
-        }
-
-        await todoService.addTodo({
-            task
-        });
-
-        setTodos(await todoService.getTodos());
-    }
-
-    async function changeState(todo: Todo) {
-        if (!todoService) {
-            return;
-        }
-
+    async function changeTodoState(todo: Todo) {
         const newStatus = (todo.status + 1) % (TodoStatus.Done + 1);
-        await todoService.updateTodo(todo.id, {
-            status: newStatus,
-            task: todo.task
-        });
-
-        setTodos(await todoService.getTodos());
-    }
-
-    async function deleteTodo(todo: Todo) {
-        if (!todoService) {
-            return;
-        }
-
-        await todoService.deleteTodo(todo.id);
-        setTodos(await todoService.getTodos());
+        dispatch(
+            updateTodo({
+                id: todo.id,
+                todo: {
+                    status: newStatus,
+                    task: todo.task,
+                },
+            })
+        );
     }
 
     return (
         <div className="todo-page-wrapper">
             <div className="todo-page">
-                <AddTodo onAdd={addTodo} />
+                <AddTodo onAdd={(task) => dispatch(addTodo({ task }))} />
                 <div className="todo-list-header">TODO List:</div>
                 <div className="todo-list">
-                    {todos.length > 0 ? todos.map(todo => (
-                        <TodoItem
-                            todo={todo}
-                            key={todo.id}
-                            onChangeState={() => changeState(todo)}
-                            onDelete={() => deleteTodo(todo)} />
-                    )) : (
-                        <div className="no-todos">
-                            You have no TODOs
-                        </div>
+                    {todos.length > 0 ? (
+                        todos.map((todo) => (
+                            <TodoItem
+                                todo={todo}
+                                key={todo.id}
+                                onChangeState={() => changeTodoState(todo)}
+                                onDelete={() => dispatch(deleteTodo(todo.id))}
+                            />
+                        ))
+                    ) : (
+                        <div className="no-todos">You have no TODOs</div>
                     )}
                 </div>
             </div>
