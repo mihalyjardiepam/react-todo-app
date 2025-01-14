@@ -4,7 +4,7 @@ import AddTodo from "../components/AddTodo";
 import { useAppDispatch, useAppSelector } from "../store";
 import { addTodo, deleteTodo, getTodos, updateTodo } from "../features/todos/todosSlice";
 import { Todo, TodoStatus } from "../models/Todo";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 function TodoPage() {
     const { todos } = useAppSelector((state) => state.todos);
@@ -14,18 +14,28 @@ function TodoPage() {
         dispatch(getTodos());
     }, []);
 
-    async function changeTodoState(todo: Todo) {
-        const newStatus = (todo.status + 1) % (TodoStatus.Done + 1);
-        dispatch(
-            updateTodo({
-                id: todo.id,
-                todo: {
-                    status: newStatus,
-                    task: todo.task,
-                },
-            })
-        );
-    }
+    const changeTodoState = useCallback(
+        async (todo: Todo) => {
+            const newStatus = (todo.status + 1) % (TodoStatus.Done + 1);
+            dispatch(
+                updateTodo({
+                    id: todo.id,
+                    todo: {
+                        status: newStatus,
+                        task: todo.task,
+                    },
+                })
+            );
+        },
+        [dispatch]
+    );
+
+    const onDeleteTodo = useCallback(
+        (todo: Todo) => {
+            dispatch(deleteTodo(todo.id));
+        },
+        [dispatch]
+    );
 
     return (
         <div className="todo-page-wrapper">
@@ -38,8 +48,8 @@ function TodoPage() {
                             <TodoItem
                                 todo={todo}
                                 key={todo.id}
-                                onChangeState={() => changeTodoState(todo)}
-                                onDelete={() => dispatch(deleteTodo(todo.id))}
+                                onChangeState={changeTodoState}
+                                onDelete={onDeleteTodo}
                             />
                         ))
                     ) : (
