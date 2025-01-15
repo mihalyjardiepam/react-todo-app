@@ -8,6 +8,7 @@ import { useCallback, useEffect } from "react";
 
 function TodoPage() {
     const { todos } = useAppSelector((state) => state.todos);
+    const { user } = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -43,7 +44,7 @@ function TodoPage() {
                 <AddTodo onAdd={(task) => dispatch(addTodo({ task }))} />
                 <div className="todo-list-header">TODO List:</div>
                 <div className="todo-list">
-                    {todos.length > 0 ? (
+                    {todos.filter((todo) => todo.userId == user?.id).length > 0 ? (
                         todos.map((todo) => (
                             <TodoItem
                                 todo={todo}

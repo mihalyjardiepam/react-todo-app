@@ -1,6 +1,7 @@
 import { asyncThunkCreator, buildCreateSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CreateTodo, IDType, Todo, UpdateTodo } from "../../models/Todo";
+import { CreateTodo, Todo, UpdateTodo } from "../../models/Todo";
 import { ThunkExtra } from "../../store";
+import { IDType } from "../../models/IDType";
 
 const createAppSlice = buildCreateSlice({
     creators: {

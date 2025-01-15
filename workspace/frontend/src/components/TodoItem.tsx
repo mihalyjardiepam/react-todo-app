@@ -17,7 +17,6 @@ const StatusIconMap = {
 };
 
 export default memo(({ todo, onChangeState, onDelete }: TodoItemProps) => {
-    console.log(`TodoItem Rerender: ${new Date()}`);
     const { createdAt, id, status, task } = todo;
 
     return (
