@@ -10,7 +10,7 @@ export interface LoginSignupPageProps {
     signup?: boolean;
 }
 
-export const LoginSignupPage = ({ signup }: LoginSignupPageProps) => {
+export default ({ signup }: LoginSignupPageProps) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
