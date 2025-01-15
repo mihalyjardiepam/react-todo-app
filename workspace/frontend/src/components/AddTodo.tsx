@@ -21,6 +21,7 @@ function AddTodo({ onAdd }: AddTodoProps) {
         <div className="add-todo">
             <form action={addTodo}>
                 <input
+                    className="input"
                     required
                     ref={taskInputRef}
                     type="text"
@@ -28,7 +29,9 @@ function AddTodo({ onAdd }: AddTodoProps) {
                     name="todo-input"
                     placeholder="task description..."
                 />
-                <button type="submit">Add New Todo</button>
+                <button type="submit" className="btn btn-primary">
+                    Add New Todo
+                </button>
             </form>
         </div>
     );

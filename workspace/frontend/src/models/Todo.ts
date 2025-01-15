@@ -1,3 +1,4 @@
+import { IDType } from "./IDType";
 import { UnixTimestampMs } from "./UnixTimestampMs";
 
 export enum TodoStatus {
@@ -5,8 +6,6 @@ export enum TodoStatus {
     InProgress,
     Done,
 }
-
-export type IDType = string;
 
 /**
  * Represents a TODO
@@ -31,6 +30,11 @@ export interface Todo {
      * Created date timestamp
      */
     createdAt: UnixTimestampMs,
+
+    /**
+     * Creator User ID
+     */
+    userId: IDType | null;
 }
 
 export type CreateTodo = Pick<Todo, "task">;

@@ -1,9 +1,9 @@
 import "./TodoPage.scss";
-import TodoItem from "../components/TodoItem";
-import AddTodo from "../components/AddTodo";
-import { useAppDispatch, useAppSelector } from "../store";
-import { addTodo, deleteTodo, getTodos, updateTodo } from "../features/todos/todosSlice";
-import { Todo, TodoStatus } from "../models/Todo";
+import TodoItem from "../../components/TodoItem";
+import AddTodo from "../../components/AddTodo";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { addTodo, deleteTodo, getTodos, updateTodo } from "../../features/todos/todosSlice";
+import { Todo, TodoStatus } from "../../models/Todo";
 import { useCallback, useEffect } from "react";
 
 function TodoPage() {

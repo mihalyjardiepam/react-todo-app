@@ -1,0 +1,13 @@
+.input {
+    transition: border-color 0.1s ease-in-out;
+    background-color: transparent;
+    color: var(--ui-primary);
+    border: 2px solid var(--ui-secondary);
+    border-radius: 4px;
+    padding: 6px;
+
+    &:focus {
+        outline: none;
+        border-color: var(--primary);
+    }
+}

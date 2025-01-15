@@ -1,5 +1,7 @@
 import { generateId } from "../lib/generate-id";
-import { CreateTodo, IDType, Todo, TodoStatus, UpdateTodo } from "../models/Todo";
+import { IDType } from "../models/IDType";
+import { CreateTodo, Todo, TodoStatus, UpdateTodo } from "../models/Todo";
+import { AuthLocalStorageService } from "./AuthLocalStorageService";
 import { TodoService } from "./TodoService";
 
 const ID_LENGTH = 12;
@@ -8,14 +10,17 @@ const INITIAL_VALUE: Todo[] = [{
     id: generateId(ID_LENGTH),
     createdAt: new Date().getTime(),
     status: TodoStatus.NotStarted,
-    task: "Add TODOs"
+    task: "Add TODOs",
+    userId: null
 }];
 
 /**
  * Service that interacts with the todos.
  */
 export class TodoLocalStorageService implements TodoService {
-    constructor() {
+    constructor(
+        private _authService: AuthLocalStorageService
+    ) {
         const currentKeys = localStorage.getItem(TODO_LOCALSTORAGE_KEY);
 
         if (currentKeys == null) {
@@ -38,7 +43,8 @@ export class TodoLocalStorageService implements TodoService {
             ...todo,
             createdAt: new Date().getTime(),
             id: generateId(ID_LENGTH),
-            status: TodoStatus.NotStarted
+            status: TodoStatus.NotStarted,
+            userId: (await this._authService.getUser())?.id || null
         }
 
         let todos = [newTodo, ...await this.getTodos()];
