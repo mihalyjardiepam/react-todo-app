@@ -1,14 +1,17 @@
-const byteArray: string[] = []
+// Set up two way mapping of bytes to hex representation
+// Used later in lookups for creating hex strings from byte arrays
+const BYTE_TO_STR: Map<number, string> = new Map();
+const STR_TO_BYTE: Map<string, number> = new Map();
 
-function generateByteArray() {
+function generateByteMaps() {
     for (let n = 0; n <= 0xff; n++) {
-        byteArray.push(
-            n.toString(16).padStart(2, "0")
-        );
+        const str = n.toString(16).padStart(2, "0")
+        BYTE_TO_STR.set(n, str);
+        STR_TO_BYTE.set(str, n);
     }
 }
 
-generateByteArray();
+generateByteMaps();
 
 /**
  * Converts plaintext into a hex hash string
@@ -39,7 +42,7 @@ export function bufferToHexStr(arrayBuffer: ArrayBuffer): string {
     const hex = new Array<string>(buffer.length);
 
     for (let i = 0; i < buffer.length; i++) {
-        hex[i] = byteArray[buffer[i]];
+        hex[i] = BYTE_TO_STR.get(buffer[i])!;
     }
 
     return hex.join("");
@@ -52,9 +55,8 @@ export function hexStrToBuffer(input: string): ArrayBuffer {
 
     const buffer = new Uint8Array(input.length / 2);
     for (let i = 0; i < input.length; i += 2) {
-        // could be sped up with binary search
         const octetStr = input[i] + input[i + 1];
-        buffer[i / 2] = byteArray.findIndex(el => el == octetStr);
+        buffer[i / 2] = STR_TO_BYTE.get(octetStr)!;
     }
 
     return buffer;
