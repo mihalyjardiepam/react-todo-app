@@ -1,4 +1,5 @@
 import { generateId } from "../lib/generate-id";
+import { sleep } from "../lib/sleep";
 import { IDType } from "../models/IDType";
 import { CreateTodo, Todo, TodoStatus, UpdateTodo } from "../models/Todo";
 import { AuthLocalStorageService } from "./AuthLocalStorageService";
@@ -29,6 +30,7 @@ export class TodoLocalStorageService implements TodoService {
     }
 
     public async getTodos(): Promise<Todo[] | never> {
+        await sleep(1000);
         const todosJson = localStorage.getItem(TODO_LOCALSTORAGE_KEY);
 
         if (todosJson == null) {
@@ -39,6 +41,7 @@ export class TodoLocalStorageService implements TodoService {
     }
 
     public async addTodo(todo: CreateTodo): Promise<Todo | never> {
+        await sleep(1000);
         let newTodo: Todo = {
             ...todo,
             createdAt: new Date().getTime(),
@@ -54,6 +57,7 @@ export class TodoLocalStorageService implements TodoService {
     }
 
     public async updateTodo(id: IDType, updateData: UpdateTodo): Promise<Todo | never> {
+        await sleep(1000);
         const currentTodos = await this.getTodos();
         const todoIndex = currentTodos.findIndex(todo => todo.id === id);
 
@@ -71,6 +75,7 @@ export class TodoLocalStorageService implements TodoService {
     }
 
     public async deleteTodo(id: IDType): Promise<void | never> {
+        await sleep(1000);
         const currentTodos = await this.getTodos();
         const newTodos = currentTodos.filter(todo => todo.id !== id);
         TodoLocalStorageService._saveTodos(newTodos);

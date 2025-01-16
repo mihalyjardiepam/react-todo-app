@@ -1,42 +1,14 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { todoSlice } from "./features/todos/todosSlice";
-import { TodoServiceFactory } from "./services/TodoServiceFactory";
-import { TodoService } from "./services/TodoService";
-import { useDispatch, useSelector } from "react-redux";
-import { AuthLocalStorageService } from "./services/AuthLocalStorageService";
-import { AuthService } from "./services/AuthService";
-import { authSlice } from "./features/auth/authSlice";
-import { errorListener } from "./effects/errorSnackbar";
+import { applyMiddleware, combineReducers, legacy_createStore as createStore } from "redux";
+import { todoReducer } from "./features/todos/todoReducer";
+import { thunk } from "redux-thunk";
 
-export const store = configureStore({
-    reducer: {
-        todos: todoSlice.reducer,
-        auth: authSlice.reducer
-    },
-    middleware: (getDefaultMiddleware) => {
-        let middleware = getDefaultMiddleware({
-            thunk: {
-                extraArgument: {
-                    todoService: TodoServiceFactory.getTodoService(),
-                    authService: new AuthLocalStorageService()
-                }
-            }
-        });
+const reducers = combineReducers({
+    todo: todoReducer
+});
 
-        middleware.push(errorListener.middleware);
+// @ts-ignore
+export const store = createStore(reducers, applyMiddleware(thunk))
 
-        return middleware;
-    }
-})
-
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
-export type ThunkExtra = {
-    extra: {
-        todoService: TodoService,
-        authService: AuthService,
-    }
-}
-
-export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
-export const useAppSelector = useSelector.withTypes<RootState>();
+export type AppStore = typeof store;
+export type AppState = ReturnType<typeof store["getState"]>;
+export type GetStateFn = typeof store["getState"];

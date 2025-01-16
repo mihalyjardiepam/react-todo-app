@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { SyntheticEvent, useRef } from "react";
 import "./AddTodo.scss";
 
 interface AddTodoProps {
@@ -9,7 +9,9 @@ interface AddTodoProps {
 function AddTodo({ onAdd, disabled }: AddTodoProps) {
     const taskInputRef = useRef<HTMLInputElement | null>(null);
 
-    async function addTodo() {
+    async function addTodo(e: SyntheticEvent) {
+        e.preventDefault();
+
         if (!taskInputRef.current) {
             return;
         }
@@ -20,7 +22,7 @@ function AddTodo({ onAdd, disabled }: AddTodoProps) {
 
     return (
         <div className="add-todo">
-            <form action={addTodo}>
+            <form onSubmit={addTodo}>
                 <input
                     className="input"
                     required
