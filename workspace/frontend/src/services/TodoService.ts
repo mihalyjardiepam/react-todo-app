@@ -1,4 +1,5 @@
-import { CreateTodo, IDType, Todo, UpdateTodo } from "../models/Todo";
+import { IDType } from "../models/IDType";
+import { CreateTodo, Todo, UpdateTodo } from "../models/Todo";
 
 export interface TodoService {
     getTodos(): Promise<Todo[] | never>;

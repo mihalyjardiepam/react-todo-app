@@ -12,6 +12,10 @@
         background-color: transparent;
         border: none;
         cursor: pointer;
+
+        &:disabled {
+            color: var(--ui-secondary) !important;
+        }
     }
 
     .delete-button {
@@ -19,18 +23,18 @@
     }
 
     .check-btn {
-        transition: color .1s ease-in-out;
+        transition: color 0.1s ease-in-out;
 
         &.status-0 {
             color: var(--fg);
         }
 
         &.status-1 {
-            color: var(--ui-in-progress)
+            color: var(--ui-in-progress);
         }
 
         &.status-2 {
-            color: var(--ui-secondary)
+            color: var(--ui-secondary);
         }
     }
 

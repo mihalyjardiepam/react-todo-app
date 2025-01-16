@@ -11,6 +11,16 @@
     }
 }
 
+.btn:disabled {
+    color: var(--ui-secondary) !important;
+    border-color: var(--ui-secondary) !important;
+    cursor: default !important;
+
+    &:hover {
+        color: var(--ui-secondary) !important;
+    }
+}
+
 .btn-primary {
     color: var(--ui-primary);
     &:hover {

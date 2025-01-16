@@ -8,6 +8,7 @@ export interface TodoItemProps {
     todo: Todo;
     onChangeState?: (todo: Todo) => void;
     onDelete?: (todo: Todo) => void;
+    disabled?: boolean;
 }
 
 const StatusIconMap = {
@@ -16,7 +17,7 @@ const StatusIconMap = {
     [TodoStatus.Done]: "check_box",
 };
 
-export default memo(({ todo, onChangeState, onDelete }: TodoItemProps) => {
+export default memo(({ todo, onChangeState, onDelete, disabled }: TodoItemProps) => {
     const { createdAt, id, status, task } = todo;
 
     return (
@@ -26,10 +27,14 @@ export default memo(({ todo, onChangeState, onDelete }: TodoItemProps) => {
                 <div className="misc-info">Created at: {unixTimestampIntoDate(createdAt)}</div>
             </div>
             <div className="status-button-wrapper">
-                <button className="todo-list-button delete-button" onClick={() => onDelete?.(todo)}>
+                <button className="todo-list-button delete-button" onClick={() => onDelete?.(todo)} disabled={disabled}>
                     <MatIcon icon="delete" />
                 </button>
-                <button className={`todo-list-button check-btn status-${status}`} onClick={() => onChangeState?.(todo)}>
+                <button
+                    className={`todo-list-button check-btn status-${status}`}
+                    onClick={() => onChangeState?.(todo)}
+                    disabled={disabled}
+                >
                     <MatIcon icon={StatusIconMap[status]} />
                 </button>
             </div>

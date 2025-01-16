@@ -1,28 +1,12 @@
-import { Action, configureStore, createListenerMiddleware, Dispatch, isRejected, PayloadAction } from "@reduxjs/toolkit";
-import { getTodos, todoSlice } from "./features/todos/todosSlice";
+import { configureStore } from "@reduxjs/toolkit";
+import { todoSlice } from "./features/todos/todosSlice";
 import { TodoServiceFactory } from "./services/TodoServiceFactory";
 import { TodoService } from "./services/TodoService";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthLocalStorageService } from "./services/AuthLocalStorageService";
 import { AuthService } from "./services/AuthService";
-import { authSlice, login } from "./features/auth/authSlice";
-import { enqueueSnackbar } from "notistack";
-
-const errorListener = createListenerMiddleware<RootState>();
-
-errorListener.startListening({
-    effect: (action, _) => {
-        if (isRejected(action)) {
-            enqueueSnackbar({
-                variant: "error",
-                message: action.error.message
-            })
-        }
-    },
-    predicate: (action) => {
-        return action.type.includes("rejected")
-    },
-});
+import { authSlice } from "./features/auth/authSlice";
+import { errorListener } from "./effects/errorSnackbar";
 
 export const store = configureStore({
     reducer: {
