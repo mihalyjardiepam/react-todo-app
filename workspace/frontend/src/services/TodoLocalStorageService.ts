@@ -1,5 +1,4 @@
 import { generateId } from "../lib/generate-id";
-import { sleep } from "../lib/sleep";
 import { IDType } from "../models/IDType";
 import { CreateTodo, Todo, TodoStatus, UpdateTodo } from "../models/Todo";
 import { AuthLocalStorageService } from "./AuthLocalStorageService";
