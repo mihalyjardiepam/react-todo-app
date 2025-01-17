@@ -1,26 +1,23 @@
-import { Resource } from '@opentelemetry/resources';
-import {
-    ATTR_SERVICE_NAME,
-    ATTR_SERVICE_VERSION,
-} from '@opentelemetry/semantic-conventions';
-import { WebTracerProvider } from '@opentelemetry/sdk-trace-web';
-import {
-    BatchSpanProcessor,
-    ConsoleSpanExporter,
-} from '@opentelemetry/sdk-trace-base';
+/*instrumentation.js*/
+// Require dependencies
+import { NodeSDK } from '@opentelemetry/sdk-node';
+import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
+import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
+import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-proto';
+import { PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics';
+import { ServiceConfig } from './config';
 
-const resource = Resource.default().merge(
-    new Resource({
-        [ATTR_SERVICE_NAME]: 'service',
-        [ATTR_SERVICE_VERSION]: '0.1.0',
+const sdk = new NodeSDK({
+    serviceName: `${ServiceConfig.serviceName}:${ServiceConfig.serviceVersion}`,
+    traceExporter: new OTLPTraceExporter({
+
     }),
-);
-
-const provider = new WebTracerProvider({
-    resource: resource,
+    metricReader: new PeriodicExportingMetricReader({
+        exporter: new OTLPMetricExporter({
+            concurrencyLimit: 1
+        }),
+    }),
+    instrumentations: [getNodeAutoInstrumentations()],
 });
-const exporter = new ConsoleSpanExporter();
-const processor = new BatchSpanProcessor(exporter);
-provider.addSpanProcessor(processor);
 
-provider.register();
+sdk.start();
