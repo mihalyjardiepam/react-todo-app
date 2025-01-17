@@ -52,7 +52,7 @@ export class AuthLocalStorageService implements AuthService {
         const { username, password } = credentials;
         const users = this._readLocalStorage();
 
-        const user = users.find(user => user.username === username);
+        const user = users.find(user => user.username.toLowerCase() === username.toLowerCase());
         if (!user) {
             throw new Error("Invalid username.");
         }

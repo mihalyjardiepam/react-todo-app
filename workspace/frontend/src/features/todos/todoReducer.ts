@@ -1,7 +1,7 @@
 import { Dispatch, UnknownAction } from "redux";
 import { CreateTodo, Todo, UpdateTodo } from "../../models/Todo";
 import { TodoServiceFactory } from "../../services/TodoServiceFactory";
-import { todoAdded, todoDeleted, todosLoaded, todoUpdated } from "./todoActions";
+import { TodoActionTypes, todoAdded, todoDeleted, todosLoaded, todoUpdated } from "./todoActions";
 import { IDType } from "../../models/IDType";
 
 const service = TodoServiceFactory.getTodoService();
@@ -12,11 +12,13 @@ const initialState = {
 
 export function todoReducer(state = initialState, action: UnknownAction) {
     switch (action.type) {
-        case "todos/todoAdded":
+        case TodoActionTypes.TodoAdded:
             return { ...state, todos: [action.payload, ...state.todos] };
-        case "todos/todosLoaded":
+
+        case TodoActionTypes.TodosLoaded:
             return { ...state, todos: action.payload };
-        case "todos/todoUpdated":
+
+        case TodoActionTypes.TodoUpdated:
             const updatedTodo = action.payload as Todo;
 
             const index = state.todos.findIndex(todo => todo.id == updatedTodo.id);
@@ -26,10 +28,12 @@ export function todoReducer(state = initialState, action: UnknownAction) {
                 state.todos[index] = updatedTodo;
             }
             return { ...state, todos: [...state.todos] }
-        case "todos/todoDeleted":
+
+        case TodoActionTypes.TodoDeleted:
             const deletedTodoId = action.payload as IDType;
             state.todos = state.todos.filter(todo => todo.id !== deletedTodoId);
             return { ...state, todos: [...state.todos] }
+
         default:
             return state
     }

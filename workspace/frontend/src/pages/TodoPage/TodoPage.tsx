@@ -25,9 +25,7 @@ const TodoPage = ({ todos }: TodoPageProps) => {
     const [deleteTodo, isDeletingTodo] = useAsyncDispatch(dispatch, deleteTodoThunk);
 
     useEffect(() => {
-        fetchTodos().then(() => {
-            console.log("done!");
-        });
+        fetchTodos();
     }, [dispatch]);
 
     const onAddTodo = useCallback(
@@ -78,7 +76,6 @@ const TodoPage = ({ todos }: TodoPageProps) => {
                     ) : (
                         <div className="no-todos">You have no TODOs</div>
                     )}
-                    {}
                 </div>
             </div>
         </div>

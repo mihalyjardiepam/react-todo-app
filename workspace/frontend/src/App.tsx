@@ -1,13 +1,18 @@
 import { Route, Routes } from "react-router";
-import { Navbar } from "./components/Navbar/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 import TodoPage from "./pages/TodoPage/TodoPage";
 import { SnackbarProvider } from "notistack";
 import { lazy, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { loadUser } from "./features/auth/authReducer";
 
 const LoginSignupPage = lazy(() => import("./pages/LoginSignupPage/LoginSignupPage"));
 
 export function App() {
-    useEffect(() => {}, []);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(loadUser());
+    }, []);
 
     return (
         <>

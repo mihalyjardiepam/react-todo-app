@@ -1,18 +1,20 @@
 import { Link, useNavigate } from "react-router";
 import "./LoginSignupPage.scss";
-import { useAppDispatch } from "../../store";
-import { login, signup as signupAction } from "../../features/auth/authSlice";
 import { SyntheticEvent, useRef } from "react";
 import { enqueueSnackbar } from "notistack";
-import { isRejected } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
+import { signup as signupThunk, login as loginThunk } from "../../features/auth/authReducer";
+import { useAsyncDispatch } from "../../hooks/useAsyncDispatch";
 
 export interface LoginSignupPageProps {
     signup?: boolean;
 }
 
-export default ({ signup }: LoginSignupPageProps) => {
-    const dispatch = useAppDispatch();
+export default ({ signup: isSignup }: LoginSignupPageProps) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [signupAction, isSigningIn, signupError] = useAsyncDispatch(dispatch, signupThunk, { throwError: true });
+    const [loginAction, isLoggingIn, loginError] = useAsyncDispatch(dispatch, loginThunk, { throwError: true });
 
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
@@ -28,7 +30,7 @@ export default ({ signup }: LoginSignupPageProps) => {
         const username = usernameRef.current.value;
         const password = passwordRef.current.value;
 
-        if (signup) {
+        if (isSignup) {
             if (!passwordConfirmRef.current) {
                 return;
             }
@@ -42,34 +44,28 @@ export default ({ signup }: LoginSignupPageProps) => {
                 });
             }
 
-            const result = await dispatch(
-                signupAction({
-                    password,
-                    username,
-                })
-            );
-
-            if (!isRejected(result)) {
+            signupAction({
+                username,
+                password,
+            }).then(() => {
                 navigate("/");
-            }
+            });
         } else {
-            const result = await dispatch(
-                login({
-                    password,
-                    username,
-                })
-            );
-
-            if (!isRejected(result)) {
+            loginAction({
+                username,
+                password,
+            }).then(() => {
                 navigate("/");
-            }
+            });
         }
     }
 
     return (
         <div className="login-form">
             <form onSubmit={dispatchForm}>
-                <h2>{signup ? "Sign up" : "Login"}</h2>
+                {loginError && <div className="alert alert-warn">{loginError.message}</div>}
+                {signupError && <div className="alert alert-warn">{signupError.message}</div>}
+                <h2>{isSignup ? "Sign up" : "Login"}</h2>
                 <label>
                     Username
                     <input
@@ -90,7 +86,7 @@ export default ({ signup }: LoginSignupPageProps) => {
                         type="password"
                     />
                 </label>
-                {signup ? (
+                {isSignup ? (
                     <>
                         <label>
                             Confirm Password

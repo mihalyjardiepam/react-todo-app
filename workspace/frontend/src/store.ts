@@ -1,9 +1,11 @@
 import { applyMiddleware, combineReducers, legacy_createStore as createStore } from "redux";
 import { todoReducer } from "./features/todos/todoReducer";
 import { thunk } from "redux-thunk";
+import { authReducer } from "./features/auth/authReducer";
 
 const reducers = combineReducers({
-    todo: todoReducer
+    todo: todoReducer,
+    auth: authReducer
 });
 
 // @ts-ignore

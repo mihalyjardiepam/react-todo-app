@@ -1,36 +1,37 @@
 import { IDType } from "../../models/IDType"
 import { Todo } from "../../models/Todo"
 
+export enum TodoActionTypes {
+    TodoAdded = "todos/todoAdded",
+    TodosLoaded = "todos/todosLoaded",
+    TodoUpdated = "todos/todoUpdated",
+    TodoDeleted = "todos/todoDeleted",
+}
+
 export const todoAdded = (todo: Todo) => {
     return {
-        type: "todos/todoAdded",
+        type: TodoActionTypes.TodoAdded,
         payload: todo
     }
 }
 
 export const todosLoaded = (todos: Todo[]) => {
     return {
-        type: "todos/todosLoaded",
+        type: TodoActionTypes.TodosLoaded,
         payload: todos
     }
 }
 
 export const todoUpdated = (todo: Todo) => {
     return {
-        type: "todos/todoUpdated",
+        type: TodoActionTypes.TodoUpdated,
         payload: todo
     }
 }
 
 export const todoDeleted = (todoId: IDType) => {
     return {
-        type: "todos/todoDeleted",
+        type: TodoActionTypes.TodoDeleted,
         payload: todoId
-    }
-}
-
-export const fetchTodos = () => {
-    return {
-        type: "todos/fetchTodos"
     }
 }
